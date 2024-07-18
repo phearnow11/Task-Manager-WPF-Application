@@ -1,0 +1,25 @@
+{
+  "runtimeOptions": {
+    "tfm": "net8.0",
+    "frameworks": [
+      {
+        "name": "Microsoft.NETCore.App",
+        "version": "8.0.0"
+      },
+      {
+        "name": "Microsoft.WindowsDesktop.App",
+        "version": "8.0.0"
+      }
+    ],
+    "additionalProbingPaths": [
+      "C:\\Users\\Phrimp\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\Phrimp\\.nuget\\packages"
+    ],
+    "configProperties": {
+      "Windows.ApplicationModel.DataTransfer.DragDrop.ExternalSupport": true,
+      "System.Reflection.NullabilityInfoContext.IsSupported": true,
+      "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": true,
+      "Microsoft.NETCore.DotNetHostPolicy.SetAppPaths": true
+    }
+  }
+}

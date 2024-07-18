@@ -1,0 +1,123 @@
+﻿<Window x:Class="TaskManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TaskManager"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="470" Width="800">
+    <Grid>
+        <TabControl x:Name="TabControlG">
+            <TabItem Header="Tasks">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Margin="10 10 10 0">
+                        <Button Content="Add Task" Width="100" Margin="0 0 10 0" Click="Add_Click" Background="#3273dc" Foreground="White"/>
+                        <Button Content="Edit Task" Width="100" Margin="0 0 10 0" Click="Edit_Click" Background="#3273dc" Foreground="White"/>
+                        <Button Content="Delete Task" Width="100" Margin="0 0 10 0" Click="DeleteTask_Click" Background="#3273dc" Foreground="White"/>
+                        <TextBox x:Name="SearchTextBox" TextWrapping="Wrap" Text="Search" Width="360" Height="30" KeyDown="Search_Handler"/>
+                        <Button Content="Logout" Width="60" Margin="10 0 10 0" Click="Logout_Handler" Background="#3273dc" Foreground="White"/>
+                    </StackPanel>
+
+                    <DataGrid Grid.Row="1" AutoGenerateColumns="False" Name="TasksDataGrid" Margin="10" Background="White">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="TaskID" Header="Task ID" Binding="{Binding TaskId}"/>
+                            <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
+                            <DataGridTextColumn Header="Due Date" Binding="{Binding DueDateTime}"/>
+                            <DataGridTextColumn Header="Priority" Binding="{Binding Priority}"/>
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}"/>
+                            <DataGridTextColumn Header="RecurrenceType" Binding="{Binding RecurrenceType}"/>
+                            <DataGridTextColumn Header="CreatedAt" Binding="{Binding CreatedAt}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <!-- Add/Edit Task Tab -->
+            <TabItem Header="Add/Edit Task" Visibility="Hidden">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Title:" Grid.Row="0" Grid.Column="0"/>
+                    <TextBox x:Name="TitleTextBox" Grid.Row="0" Grid.Column="1" Margin="0 0 0 10" Height="25"/>
+                    <Label Content="Description:" Grid.Row="1" Grid.Column="0"/>
+                    <TextBox x:Name="DescriptionTextBox" Grid.Row="1" Grid.Column="1" Margin="0 0 0 10" AcceptsReturn="True" TextWrapping="Wrap" Height="50"/>
+
+                    <Label Content="Due Date:" Grid.Row="2" Grid.Column="0"/>
+                    <DatePicker x:Name="DueDatePicker" Grid.Row="2" Grid.Column="1" Margin="0 0 0 10" Height="25"/>
+
+                    <Label Content="Priority:" Grid.Row="3" Grid.Column="0"/>
+                    <ComboBox x:Name="PriorityComboBox" Grid.Row="3" Grid.Column="1" Margin="0 0 0 10">
+                        <ComboBoxItem>Low</ComboBoxItem>
+                        <ComboBoxItem>Medium</ComboBoxItem>
+                        <ComboBoxItem>High</ComboBoxItem>
+                    </ComboBox>
+
+                    <Label Content="Status:" Grid.Row="4" Grid.Column="0"/>
+                    <ComboBox x:Name="StatusComboBox" Grid.Row="4" Grid.Column="1" Margin="0 0 0 10">
+                        <ComboBoxItem>Pending</ComboBoxItem>
+                        <ComboBoxItem>In Progress</ComboBoxItem>
+                        <ComboBoxItem>Completed</ComboBoxItem>
+                    </ComboBox>
+                    
+                    <Label Content="Recurrence:" Grid.Row="5" Grid.Column="0"/>
+                    <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal">
+                        <ComboBox Name="RecurrenceComboBox" Width="120" Height= "20" Margin="0,0,10,0">
+                            <ComboBoxItem>Daily</ComboBoxItem>
+                            <ComboBoxItem>Weekly</ComboBoxItem>
+                            <ComboBoxItem>Monthly</ComboBoxItem>
+                            <ComboBoxItem>Yearly</ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <Label Content="Dependency:" Grid.Row="6" Grid.Column="0"/>
+                    <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <ComboBox Name="AvailableTasksComboBox" DisplayMemberPath="Title" Width="200" Margin="0, 0,10,0"/>
+                            <Button Width="150" Click="Remove_Dependency">Remove Dependency</Button>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Label Content="Reminder:" Grid.Row="7" Grid.Column="0"/>
+                    <StackPanel Grid.Row="7" Grid.Column="1" Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <ComboBox Name="AvailableTimer" Width="50" Margin="0, 0,0,0">
+                                <ComboBoxItem>30</ComboBoxItem>
+                                <ComboBoxItem>60</ComboBoxItem>
+                                <ComboBoxItem>120</ComboBoxItem>
+                                <ComboBoxItem>180</ComboBoxItem>
+                                <ComboBoxItem>240</ComboBoxItem>
+                                <ComboBoxItem>360</ComboBoxItem>
+                                <ComboBoxItem>720</ComboBoxItem>
+                            </ComboBox>
+                            <Label>Minuetes</Label>
+                            <CheckBox x:Name="EnableTimer" Margin="0,5,0,0" >Enable</CheckBox>
+                        </StackPanel>
+                    </StackPanel>
+
+
+                    <Button Grid.Column="1" Click="SaveTask_Click" Width="100" Content="Save" HorizontalAlignment="Left" Margin="420,54,0,0" Grid.Row="8" VerticalAlignment="Top"/>
+                    <Button Grid.Column="1" Click="CancelTask_Click" Width="100" Content="Cancel" HorizontalAlignment="Left" Margin="550,54,0,0" Grid.Row="8" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+
+    </Grid>
+</Window>
